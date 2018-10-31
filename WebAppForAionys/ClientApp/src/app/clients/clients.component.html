@@ -1,0 +1,33 @@
+<dx-data-grid [dataSource]="clients"
+              [masterDetail]="{ enabled: true, template: 'detail' }"
+              keyExpr="id"
+              [showBorders]="true"
+              [columnAutoWidth]="true">
+
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+  <dxi-column dataField="firstName"></dxi-column>
+  <dxi-column dataField="lastName"></dxi-column>
+  <dxi-column dataField="address"></dxi-column>
+  <dxi-column dataField="phoneNumbers"></dxi-column>
+
+  <div *dxTemplate="let client of 'detail'">
+    <div class="master-detail-caption">
+      {{client.data.firstName + " " + client.data.lastName + "'s Tasks:"}}
+    </div>
+    <dx-data-grid [dataSource]="client.data.clientTasks"
+                  [showBorders]="true"
+                  [columnAutoWidth]="true"
+                  (onRowRemoving)="deleteClientTask($event)">
+
+      <dxo-editing mode="row" [allowDeleting]="true"></dxo-editing>
+
+      <dxi-column dataField="name"></dxi-column>
+      <dxi-column dataField="description"></dxi-column>
+      <dxi-column dataField="address"></dxi-column>
+      <dxi-column dataField="startTime"></dxi-column>
+      <dxi-column dataField="endTime"></dxi-column>
+
+    </dx-data-grid>
+  </div>
+</dx-data-grid>
